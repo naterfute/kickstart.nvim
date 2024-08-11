@@ -1,9 +1,7 @@
 # kickstart.nvim
 
 
->[!TIP] Download With
->```
->git clone https://github.com/KalebSchmidlkofer/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
->
->```
+> [!TIP]
+> **Download With**  
+> ```git clone https://github.com/KalebSchmidlkofer/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim```
 
