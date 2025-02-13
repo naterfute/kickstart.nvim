@@ -1,5 +1,20 @@
--- You can add your own plugins here or in other files in this directory!
---  I promise not to create any merge conflicts in this directory :)
---
--- See the kickstart.nvim README for more information
-return {}
+return {
+  {
+    'williamboman/mason.nvim',
+    config = function()
+      require('mason').setup()
+    end,
+  },
+  {
+    'williamboman/mason-lspconfig.nvim',
+    config = function()
+      require('mason-lspconfig').setup()
+    end,
+  },
+  {
+    'neovim/nvim-lspconfig',
+    config = function()
+      require('lspconfig').rust_analyzer.setup {}
+    end,
+  },
+}
