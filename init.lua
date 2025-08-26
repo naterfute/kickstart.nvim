@@ -93,6 +93,8 @@ vim.g.maplocalleader = ' '
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
+vim.g.python_recommended_style = 0
+
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
@@ -167,7 +169,6 @@ vim.o.scrolloff = 10
 vim.o.confirm = true
 
 vim.o.tabstop = 2
-vim.tabstop = 2
 vim.o.shiftwidth = 2
 vim.o.softtabstop = 2
 vim.o.expandtab = true
@@ -255,7 +256,7 @@ rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  { 'NMAC427/guess-indent.nvim', auto_cmd = true, override_editorconfig = false },
+  { 'NMAC427/guess-indent.nvim', auto_cmd = true, override_editorconfig = true },
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -699,7 +700,7 @@ require('lazy').setup({
           -- Optional: customize ruff settings
           init_options = {
             settings = {
-              configuration = '~/.config/ruff/ruff.toml',
+              -- configuration = '~/.config/ruff/ruff.toml',
               format = {
                 ['quote-style'] = 'single',
                 ['indent-width'] = 2,
