@@ -681,34 +681,36 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         -- clangd = {},
-        -- gopls = {},
+        -- gopls = {},,
         pyright = {
+          on_attach = function(client, bufnr)
+            print("Pyright attached to buffer " .. bufnr)
+          end,
           settings = {
             pyright = {
-              -- Disable pyright's import organization since ruff handles it
               disableOrganizeImports = true,
             },
             python = {
               analysis = {
-                -- Ignore certain diagnostics that ruff handles better
-                ignore = { '*' }, -- or specify specific codes like { 'F401', 'F841' }
+                ignore = { '*' },
+                typeCheckingMode = "off", -- Try turning this off if there are issues
               },
             },
           },
         },
-        ruff = {
-          -- Optional: customize ruff settings
-          init_options = {
-            settings = {
-              -- configuration = '~/.config/ruff/ruff.toml',
-              format = {
-                ['quote-style'] = 'single',
-                ['indent-width'] = 2,
-                ['indent-style'] = 'space',
-              },
-            },
-          },
-        },
+        -- ruff = {
+        --   -- Optional: customize ruff settings
+        --   init_options = {
+        --     settings = {
+        --       -- configuration = '~/.config/ruff/ruff.toml',
+        --       format = {
+        --         ['quote-style'] = 'single',
+        --         ['indent-width'] = 2,
+        --         ['indent-style'] = 'space',
+        --       },
+        --     },
+        --   },
+        -- },
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -751,6 +753,7 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'pyright',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
