@@ -195,10 +195,10 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- TIP: Disable arrow keys in normal mode
-vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
-vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
-vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
-vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
+-- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
+-- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
+-- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
+-- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
@@ -486,6 +486,7 @@ require('lazy').setup({
       },
     },
   },
+
   {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
@@ -672,6 +673,11 @@ require('lazy').setup({
       --  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
       local capabilities = require('blink.cmp').get_lsp_capabilities()
 
+      vim.lsp.config('zls', {
+        cmd = { '/usr/bin/zls' },
+        capabilities = capabilities,
+      })
+
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
       --
@@ -685,9 +691,6 @@ require('lazy').setup({
         -- clangd = {},
         -- gopls = {},,
         pyright = {
-          on_attach = function(client, bufnr)
-            print("Pyright attached to buffer " .. bufnr)
-          end,
           settings = {
             pyright = {
               disableOrganizeImports = true,
@@ -695,7 +698,7 @@ require('lazy').setup({
             python = {
               analysis = {
                 ignore = { '*' },
-                typeCheckingMode = "off", -- Try turning this off if there are issues
+                typeCheckingMode = 'off',
               },
             },
           },
@@ -723,8 +726,8 @@ require('lazy').setup({
         -- ts_ls = {},
         --
 
-        ts_ls = { -- Add this for TypeScript/TSX
-          filetypes = { 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' }, -- Ensure TSX is included
+        ts_ls = {
+          filetypes = { 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' },
           settings = {
             typescript = {
               inlayHints = {
@@ -749,6 +752,14 @@ require('lazy').setup({
               },
             },
           },
+
+          -- THIS IS THE FIX - disables formatting from ts_ls completely
+          on_attach = function(client, bufnr)
+            client.server_capabilities.documentFormattingProvider = false
+            client.server_capabilities.documentRangeFormattingProvider = false
+            -- optional: also disable selection range if you don't use it
+            -- client.server_capabilities.documentRangeFormattingProvider = false
+          end,
         },
 
         lua_ls = {
@@ -873,7 +884,15 @@ require('lazy').setup({
       },
     },
   },
-
+  {
+    'saghen/blink.compat',
+    -- use v2.* for blink.cmp v1.*
+    version = '2.*',
+    -- lazy.nvim will automatically load the plugin when it's required by blink.cmp
+    lazy = true,
+    -- make sure to set opts so that lazy.nvim calls blink.compat's setup
+    opts = {},
+  },
   { -- Autocompletion
     'saghen/blink.cmp',
     event = 'VimEnter',
