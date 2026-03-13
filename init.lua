@@ -703,9 +703,7 @@ require('lazy').setup({
           on_attach = function(client, bufnr)
             vim.api.nvim_create_autocmd('BufWritePre', {
               buffer = bufnr,
-              callback = function()
-                vim.lsp.buf.format { async = false }
-              end,
+              callback = function() vim.lsp.buf.format { async = false } end,
             })
           end,
         },
@@ -722,7 +720,11 @@ require('lazy').setup({
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
         'pyright',
-        -- You can add other tools here that you want Mason to install
+        'ruff',
+        'tailwindcss-language-server',
+        'typescript-language-server',
+        'astro-language-server',
+        'emmet-language-server',
       })
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
