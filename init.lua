@@ -493,6 +493,7 @@ require('lazy').setup({
         stylua = {},
         tailwindcss = {},
         intelephense = {},
+        zls = {},
 
         -- Special Lua Config, as recommended by neovim help docs
         lua_ls = {
