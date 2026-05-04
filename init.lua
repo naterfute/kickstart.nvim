@@ -113,16 +113,6 @@ vim.diagnostic.config {
 
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
-vim.api.nvim_create_user_command('FixAll', function()
-  local diagnostics = vim.diagnostic.get(0)
-  table.sort(diagnostics, function(a, b) return a.lnum > b.lnum end)
-
-  for _, diagnostic in ipairs(diagnostics) do
-    vim.api.nvim_win_set_cursor(0, { diagnostic.lnum + 1, diagnostic.col })
-    vim.lsp.buf.code_action { apply = true }
-  end
-end, {})
-
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
@@ -474,6 +464,7 @@ require('lazy').setup({
 
       ---@type table<string, vim.lsp.Config>
       local servers = {
+        zls = {},
         clangd = {},
         -- gopls = {},,
         pyright = {
@@ -618,7 +609,7 @@ require('lazy').setup({
     -- lazy.nvim will automatically load the plugin when it's required by blink.cmp
     lazy = true,
     -- make sure to set opts so that lazy.nvim calls blink.compat's setup
-    opts = {},
+    opts = { keymap = { preset = 'none' } },
   },
   { -- Autocompletion
     'saghen/blink.cmp',
