@@ -62,7 +62,7 @@ _99.setup {
     --- - Both methods apply the configured `exclude` list on top of gitignore
 
     --- What autocomplete engine to use. Defaults to native (built-in) if not specified.
-    source = 'blink',
+    source = 'native',
   },
 
   --- WARNING: if you change cwd then this is likely broken
